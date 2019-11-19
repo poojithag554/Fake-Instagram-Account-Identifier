@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/css/main.css">
+</head>
+
+<body>
+	<div class='title'>
+		<h1>Fake Account Identifier</h1>
+	</div>
+	<div class='content'>
+
+	<div class='form'>
+		<h2>Demo</h2>
+		<br>
+		<form method="POST" enctype="multipart/form-data">
+
+		 Enter username:<br>
+		 <input type="text" name="username" value="">
+		 <br>
+		 <br>
+		 <input type="submit" value="Submit">
+
+		</form>
+		<br>
+		{% if generated_text != None %}
+
+		<p>{{ generated_text }} </p>
+		{% endif %}
+	</div>
+
+	<div class='model'>
+		<h2>Model</h2>
+		<p>
+		Dataset from <a href="https://www.kaggle.com/free4ever1/instagram-fake-spammer-genuine-accounts" target="_blank">Kaggle</a>.<br>
+		Support-Vector Machine Classifier using <a href="https://scikit-learn.org/stable/modules/generated/sklearn.svm.NuSVC.html" target="_blank">Scikit-learn's NuSVC</a>.<br>
+		Training set accuracy: 90.28% <br>
+		Test set accuracy: 89.17% <br>
+		</p>
+	</div>
+
+	<div class='webapp'>
+		<h2>Webapp</h2>
+		<p>
+		Flask<br>
+		Selenium <br>
+		HTML<br>
+		CSS
+		</p>
+	</div>
+
+	</div>
+</body>

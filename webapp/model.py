@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """model.py
+Support Vector Classifier: NuSVC (Supervised learning)
+nu-parameter: upper bound on fraction of margin errors & lower bound on #(support vectors)/#(training samples)
+    nu = 0.5 (default) (at most 50% misclassified, at least 50% of training samples are support vectors)
 """
 
 import pandas as pd
 import numpy as np
-from matplotlib import pyplot as plt
 from sklearn.preprocessing import StandardScaler
 from sklearn import svm
 
@@ -19,36 +21,27 @@ class FakeAccClassifier():
         # Preprocess training data
         data_train = pd.read_csv('../datasets/train.csv', header=None)
         ini_train = np.array(data_train.iloc[1:, :11])
-        self.X_train = self.preprocess(ini_train, True)
+        self.X_train = self.preprocess(ini_train)
         self.y_train = np.array(data_train.iloc[1:, 11])
 
         # Fit model to data
         self.clf.fit(self.X_train, self.y_train)
 
-        # data_test = pd.read_csv('../datasets/test.csv', header=None)
-        # ini_test = np.array(data_test.iloc[1:,:11])
-        # X_test = self.preprocess(ini_test, True)
-        # y_test = np.array(data_test.iloc[1:,11])
-        # print(self.clf.score(X_test, y_test))
-
     def predict(self, ar):
+        # Reshape & scale input data
         data = np.reshape(ar, (1, -1))
         data = self.scaler.transform(data)
-        print("Data: ", ar)
 
-        # Get prediction from model
+        # Get prediction from classifier
         tmp = self.clf.predict(data)
         tmp = tmp.astype(float)
         pred = tmp[0]
-        print("Predictions: ", pred)
         if pred == 1:
-            print("Fake account")
-            return "This seems like a spam account..."
+            return "This seems like a fake account..."
         else:
-            print("Real account")
             return "This account looks real!"
 
-    def preprocess(self, ar, stand):
+    def preprocess(self, ar):
         new_data = np.zeros(11)
         new_data = np.reshape(new_data, (1, 11))
 
@@ -59,7 +52,6 @@ class FakeAccClassifier():
 
         new_data = new_data[1:]
 
-        if stand:
-            new_data = self.scaler.fit_transform(new_data)
-
+        # Standardize data
+        new_data = self.scaler.fit_transform(new_data)
         return new_data

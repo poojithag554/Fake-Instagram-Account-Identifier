@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+.title {
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+} 
+
+.content {
+  padding: 10px;
+}
+
+.model {
+  position: absolute;
+  float: left;
+  left: 20px;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.webapp {
+  float: right;
+  position: absolute;
+  right: 20px;
+  text-align: right;
+  font-family: 'Open Sans', sans-serif;
+}  
+
+.form {
+  padding-bottom: 20px;
+  width: 30%;
+  margin: auto;
+  margin-bottom: 80px;
+  border-style: double;
+  border-width: 4px;
+  border-color: pink;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+}
+
+a:link {
+  color: hotpink;
+}
+
+a:visited {
+  color: pink;
+}
+
+
+

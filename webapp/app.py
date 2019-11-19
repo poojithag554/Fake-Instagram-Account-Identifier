@@ -1,42 +1,52 @@
 # -*- coding: utf-8 -*-
 """app.py
+Flask webapp
 """
 
 from flask import Flask, request, render_template
 from model import FakeAccClassifier
 import numpy as np
-# Use selenium for web scraping?
 from selenium import webdriver
 
 app = Flask(__name__)
 
 classifier = FakeAccClassifier()
 
-
+# What happens when the form is submitted
 @app.route('/', methods=['POST'])
 def make_prediction():
     username = request.form['username']
+
+    # Extract data using Selenium web scraping
     data = get_data(username)
 
+    # Handling invalid usernames
     if data is None:
-        return render_template('homepage.html', generated_text='Invalid username')
+        return render_template('page.html', generated_text='Invalid username: @' + username)
 
+    # Get prediction from classifier
     prediction = classifier.predict(data)
-    return render_template('homepage.html', generated_text=prediction)
+
+    # Update front-end with result
+    return render_template('page.html', generated_text='@' + username + ': ' + prediction)
 
 
+# Data extraction from web scraping
 def get_data(un):
+    # Initialize Chrome and open the user account webpage
     driver = webdriver.Chrome('./chromedriver.exe')
     URL = 'http://instagram.com/' + un
     driver.get(URL)
 
     try:
+        # Invalid username handling
         valid = driver.find_elements_by_xpath('/html/body/div/div[1]/div/div/h2')[0].text
         if valid == "Sorry, this page isn't available.":
             driver.close()
             print("Invalid username")
             return None
     except:
+        # Data extraction
         data = np.zeros(11)
 
         # 0. profile picture
@@ -118,14 +128,15 @@ def get_data(un):
         following = following.replace(',', '')
         data[10] = int(following)
 
+        # Close Chrome
         driver.close()
         return data
 
 
+# Initialize web page
 @app.route('/', methods=['GET'])
 def load():
-    return render_template('homepage.html', generated_text=None)
-
+    return render_template('page.html', generated_text="")
 
 if __name__ == '__main__':
     app.run(debug=True)
